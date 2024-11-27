@@ -31,3 +31,7 @@ void Item::interact(Tile* tile, Entity* player) {
         cout << "Item not picked up!" << endl;
     }
 }
+
+Item::~Item() {
+    cout << "Item destructor" << endl;
+}

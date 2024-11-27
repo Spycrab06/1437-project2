@@ -30,7 +30,7 @@ int main()
         int monsterX = rand() % newMap->getWidth();
         int monsterY = rand() % newMap->getHeight();
         // health, attack, x, y, color, character, name, player, moveTimer, sight, followDist, angerThreshold
-        Monster* monster = new Monster(10, 1, monsterX, monsterY, 12, "M ", "Monster", player, 1, 4, 2, 10);
+        Monster* monster = new Monster(10, 1, monsterX, monsterY, 12, "M ", "Monster", player, 1, 4, 2, 5);
         monsters.push_back(monster);
     }
 
@@ -50,7 +50,7 @@ int main()
         if(turn % 20 == 0){
             int monsterX = rand() % newMap->getWidth();
             int monsterY = rand() % newMap->getHeight();
-            Monster* newMonster = new Monster(10, 1, monsterX, monsterY, 12, "M ", "Monster", player, 1, 4, 2, 10);
+            Monster* newMonster = new Monster(10, 1, monsterX, monsterY, 12, "M ", "Monster", player, 1, 4, 2, 5);
             monsters.push_back(newMonster);
         }
 

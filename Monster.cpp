@@ -63,23 +63,31 @@ void Monster::startMove(Map* map){
 
     if(distanceX <= sight && distanceY <= sight){
         wandering = false;
-        //setColor(4);
+        setColor(4);
     }
     else{
         wandering = true;
-        //setColor(14);
+        setColor(14);
     }
 
     if(currentTimer <= 0){
-        if(anger > angerThreshold){
+        if(anger >= angerThreshold){
             attack(map);
+            setColor(5);
             cout << "Monster attacking" << endl;
         }
         else if(wandering == false){
+            if(anger < angerThreshold){
+                anger++;
+                cout << "Monster anger: " << anger << endl;
+            }
             stalk(map);
             cout << "Monster stalking" << endl;
         }
         else{
+            if(anger > 0){
+                anger--;
+            }
             wander(map);
             cout << "Monster wandering" << endl;
         }
@@ -231,13 +239,13 @@ void Monster::attack(Map* map) {
     if (playerX < getX()) {
         newX--;
     } 
-    else if (playerX > getX()) {
+    if (playerX > getX()) {
         newX++;
     }
-    else if (playerY < getY()) {
+    if (playerY < getY()) {
         newY--;
     } 
-    else if (playerY > getY()) {
+    if (playerY > getY()) {
         newY++;
     }
     // move monster
@@ -246,4 +254,9 @@ void Monster::attack(Map* map) {
 
 Entity* Monster::getDrop() {
     return drop;
+}
+
+void Monster::interact(Tile* tile, Entity* _player) {
+    cout << "Monster attacks player" << endl;
+    player->takeDamage(getAttack());
 }

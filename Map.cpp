@@ -19,17 +19,15 @@ Map::Map(int _width, int _height){
     grid = new Tile*[height];
 
     for (int i = 0; i < height; i++) {
-        grid[i] = static_cast<Tile*>(operator new[](width * sizeof(Tile)));
+        grid[i] = new Tile[width];
         for (int j = 0; j < width; j++) {
-            new (&grid[i][j]) Tile(i, j);
+            grid[i][j].setX(i);
+            grid[i][j].setY(j);
         }
     }
 }
 
 Map::~Map(){
-    for(int i = 0; i < height; i++){
-        delete[] grid[i];
-    }
     delete[] grid;
 }
 

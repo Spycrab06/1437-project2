@@ -12,6 +12,7 @@ class Living : public Entity {
     public:
         Living();
         Living(int, int, int, int, int, string, string);
+        ~Living() override;
 
 
         void setHealth(int _health);

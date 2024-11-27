@@ -14,6 +14,7 @@ class Item : public Entity {
     public:
         Item();
         Item(int, int, int, int, string, string);
+        ~Item() override;
 
         int getValue();
 

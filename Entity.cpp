@@ -95,3 +95,7 @@ Entity& Entity::operator=(const Entity& other) {
     name = other.name;
     return *this;
 }
+
+Entity::~Entity() {
+    cout << "Entity destructor" << endl;
+}

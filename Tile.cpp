@@ -30,9 +30,9 @@ class Entity;
 Tile::Tile() {
     x = 0;
     y = 0;
-    //entity = nullptr;
-    //monster = nullptr;
-    //interactable = nullptr;
+    entity = nullptr;
+    monster = nullptr;
+    interactable = nullptr;
 }
 
 Tile::Tile(int _x, int _y, Entity* _entity, Entity* _monster, Entity* _interactable) : x(_x), y(_y) {

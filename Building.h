@@ -10,6 +10,7 @@ class Building : public Entity {
     public:
         Building();
         Building(int, int, int, string, string);
+        ~Building() override;
 
         void interact(Tile* tile, Entity* player) override;
     private:

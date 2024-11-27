@@ -14,7 +14,7 @@ class Monster : public Living {
     public:
         Monster();
         Monster(int, int, int, int, int, string, string, Player*, int, int, int, int);
-        ~Monster();
+        ~Monster() override;
         void startMove(Map* map) override;
 
         void wander(Map* map);
@@ -22,6 +22,8 @@ class Monster : public Living {
         void attack(Map* map);
 
         Entity* getDrop();
+
+        void interact(Tile* tile, Entity* _player) override;
     private:
         Entity* drop;
         Player* player;

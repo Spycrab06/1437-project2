@@ -29,3 +29,7 @@ bool Living::pickUpItem(Entity* item) {
     cout << "Living pickUpItem" << endl;
     return true;
 }
+
+Living::~Living() {
+    cout << "Living destructor" << endl;
+}

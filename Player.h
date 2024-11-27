@@ -13,7 +13,7 @@ class Player : public Living {
     public:
         Player();
         Player(int, int, int, int, int, string, string, int);
-        ~Player();
+        ~Player() override;
         void startMove(Map* map) override;
 
         //void move(int _x, int _y, Map* _map) override;

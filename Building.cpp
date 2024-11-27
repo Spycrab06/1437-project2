@@ -15,6 +15,8 @@ Building::Building(int _x, int _y, int _color, string _character, string _name) 
 
 void Building::interact(Tile* tile, Entity* player) {
     cout << "Building interact" << endl;
+}
 
-    
+Building::~Building() {
+    cout << "Building destructor" << endl;
 }

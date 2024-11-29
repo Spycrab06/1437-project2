@@ -7,6 +7,7 @@
 using namespace std;
 class Tile;
 class Map;
+class Player;
 
 class Entity {
     public:
@@ -28,7 +29,7 @@ class Entity {
         void setName(string _name);
         Entity& operator=(const Entity& other);
 
-        virtual void interact(Tile* tile, Entity* player);
+        virtual void interact(Tile* tile, Player* player);
         virtual void startMove(Map* map);
         virtual bool pickUpItem(Entity* item);
     private:

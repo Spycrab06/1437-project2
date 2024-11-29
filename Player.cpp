@@ -10,6 +10,8 @@ Player::Player() : Living() {
     for (int i = 0; i < inventorySize; i++) {
         inventory[i] = Item();
     }
+
+    aggro = 0;
 }
 
 Player::Player(int _health, int _attack, int _x, int _y, int _color, string _character, string _name, int _sight) : Living(_health, _attack, _x, _y, _color, _character, _name) {
@@ -19,8 +21,8 @@ Player::Player(int _health, int _attack, int _x, int _y, int _color, string _cha
     for (int i = 0; i < inventorySize; i++) {
        inventory[i] = Item();
     }
-
     sightRange = _sight;
+    aggro = 0;
 }
 
 Player::~Player() {
@@ -72,7 +74,8 @@ bool Player::pickUpItem(Entity* item) {
         cout << "Inventory full!" << endl;
         return false;
     }
-    
+    aggro += 2;
+    cout << "aggro now: " << aggro << endl;
     inventory[itemCount] = *dynamic_cast<Item*>(item);
     itemCount++;
     return true;
@@ -88,4 +91,14 @@ int Player::getSightRange(){
 
 void Player::setSightRange(int _sight){
     sightRange = _sight;
+}
+
+void Player::statCheck(){
+    if(getHealth() <= 0){
+        throw false;
+    }
+}
+
+int Player::getAggro(){
+    return aggro;
 }

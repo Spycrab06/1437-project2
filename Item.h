@@ -20,7 +20,7 @@ class Item : public Entity {
 
         void setValue(int _value);
 
-        void interact(Tile* tile, Entity* player) override;
+        void interact(Tile* tile, Player* player) override;
     private:
         int value;
         

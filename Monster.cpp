@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include "Monster.h"
 #include "Player.h"
+#include "Map.h"
+#include "Tile.h"
 
 using namespace std;
 
@@ -60,43 +62,41 @@ void Monster::startMove(Map* map){
 
     int distanceX = abs(player->getX() - getX());
     int distanceY = abs(player->getY() - getY());
+    if(anger <= player->getAggro()){
+        anger = player->getAggro();
+        cout << "aggro " << anger << endl;
+    }
 
     if(distanceX <= sight && distanceY <= sight){
         wandering = false;
-        setColor(4);
     }
     else{
         wandering = true;
-        setColor(14);
     }
 
     if(currentTimer <= 0){
-        if(anger >= angerThreshold){
+        if(anger >= angerThreshold && wandering == false){
+            // wandering is false if the monster can see the player
             attack(map);
-            setColor(5);
-            cout << "Monster attacking" << endl;
         }
-        else if(wandering == false){
+        else if(wandering == false && anger > 3){
             if(anger < angerThreshold){
                 anger++;
-                cout << "Monster anger: " << anger << endl;
             }
             stalk(map);
-            cout << "Monster stalking" << endl;
         }
         else{
             if(anger > 0){
                 anger--;
             }
             wander(map);
-            cout << "Monster wandering" << endl;
         }
         currentTimer = moveTimer;
     }
     else{
         currentTimer--;
     }
-
+    cout << "anger: " << anger << endl;
 }
 
 void Monster::wander(Map* map) {
@@ -105,7 +105,6 @@ void Monster::wander(Map* map) {
     int newX = getX();
     int newY = getY();
 
-    cout << direction << endl;
     switch (direction) {
         case 0:
             newX -= 1;
@@ -249,6 +248,10 @@ void Monster::attack(Map* map) {
         newY++;
     }
     // move monster
+
+    if(playerX == newX && playerY == newY){
+        interact(&map->getTile(newX, newY), player);
+    }
     move(newX, newY, map, "monster");
 }
 
@@ -256,7 +259,36 @@ Entity* Monster::getDrop() {
     return drop;
 }
 
-void Monster::interact(Tile* tile, Entity* _player) {
+void Monster::interact(Tile* tile, Player* _player) {
+    enum Choice { ROCK, PAPER, SCISSORS };
     cout << "Monster attacks player" << endl;
-    player->takeDamage(getAttack());
+    int choice;
+    std::cout << "Enter your choice (0 = ROCK, 1 = PAPER, 2 = SCISSORS): ";
+    std::cin >> choice;
+    Choice playerChoice = static_cast<Choice>(choice);
+    Choice monsterChoice = static_cast<Choice>(rand() % 3);
+
+    if (playerChoice == monsterChoice) {
+
+        cout << "tie" << endl;
+    } 
+    else if ((playerChoice == ROCK && monsterChoice == SCISSORS) ||
+               (playerChoice == PAPER && monsterChoice == ROCK) ||
+               (playerChoice == SCISSORS && monsterChoice == PAPER)) {
+
+        cout << "you win" << endl;
+        anger -= 10;
+        takeDamage(_player->getAttack());
+        if(getHealth() <= 0){
+            tile->setMonster(nullptr);
+        }
+    } 
+    else {
+        cout << "the monster wins" << std::endl;
+        _player->takeDamage(getAttack());
+    }
+}
+
+void Monster::increaseAnger(int _anger) {
+    anger += _anger;
 }

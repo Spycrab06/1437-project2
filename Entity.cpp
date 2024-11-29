@@ -78,7 +78,7 @@ void Entity::startMove(Map* map) {
     cout << "Entity startMove" << endl;
 }
 
-void Entity::interact(Tile* tile, Entity* player) {
+void Entity::interact(Tile* tile, Player* player) {
     cout << "Entity interact" << endl;
 }
 

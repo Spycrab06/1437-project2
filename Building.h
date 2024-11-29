@@ -12,7 +12,7 @@ class Building : public Entity {
         Building(int, int, int, string, string);
         ~Building() override;
 
-        void interact(Tile* tile, Entity* player) override;
+        void interact(Tile* tile, Player* player) override;
     private:
 
 };

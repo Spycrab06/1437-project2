@@ -103,7 +103,7 @@ string Tile::changeColor(int inColor) {
 void Tile::startInteract() {
     if (monster != nullptr) {
         if (entity != nullptr) {
-            monster->interact(this, entity);
+            monster->interact(this, dynamic_cast<Player*>(entity));
             //cout << "Interacting with monster" << endl;
         } 
         else {
@@ -112,7 +112,7 @@ void Tile::startInteract() {
     } 
     else if (interactable != nullptr) {
         if (entity != nullptr) {
-            interactable->interact(this, entity);
+            interactable->interact(this, dynamic_cast<Player*>(entity));
             //cout << "Interacting with item" << endl;
         } 
         else {

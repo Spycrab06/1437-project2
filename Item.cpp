@@ -1,6 +1,7 @@
 #include "Item.h"
 #include "Entity.h"
 #include "Map.h"
+#include "Player.h"
 #include "Tile.h"
 #include <string>
 
@@ -17,7 +18,7 @@ int Item::getValue() {return value;}
 
 void Item::setValue(int _value) {value = _value;}
 
-void Item::interact(Tile* tile, Entity* player) {
+void Item::interact(Tile* tile, Player* player) {
     cout << "Item interact" << endl;
     cout << "Pick up Item? Y/N:" << endl;
     string input;

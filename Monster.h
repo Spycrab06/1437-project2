@@ -21,9 +21,11 @@ class Monster : public Living {
         void stalk(Map* map);
         void attack(Map* map);
 
+        void increaseAnger(int);
+
         Entity* getDrop();
 
-        void interact(Tile* tile, Entity* _player) override;
+        void interact(Tile* tile, Player* _player) override;
     private:
         Entity* drop;
         Player* player;

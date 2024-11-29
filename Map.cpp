@@ -81,9 +81,9 @@ Tile& Map::getTile(int x, int y) { return grid[x][y]; }
 
 void Map::populateMap(){
     // define the types
-    enum ItemType {TRAP, TREASURE, ITEM_TYPE_COUNT};
-    int baseCounts[ITEM_TYPE_COUNT] = {20, 10};
-    int variances[ITEM_TYPE_COUNT] = {20, 10};
+    enum ItemType {TRAP, TREASURE, EXIT, ITEM_TYPE_COUNT};
+    int baseCounts[ITEM_TYPE_COUNT] = {20, 10, 1};
+    int variances[ITEM_TYPE_COUNT] = {20, 10, 3};
 
     // add varience
     int actualCounts[ITEM_TYPE_COUNT];
@@ -115,6 +115,13 @@ void Map::populateMap(){
         int x = rand() % width;
         int y = rand() % height;
         grid[x][y].setInteractable(new Item(10, x, y, 6, "O ", "Treasure"));
+    }
+
+    // escape
+    for (int i = 0; i < actualCounts[EXIT]; ++i) {
+        int x = rand() % width;
+        int y = rand() % height;
+        grid[x][y].setInteractable(new Building(x, y, 1, "E ", "Exit"));
     }
 
 }

@@ -20,13 +20,17 @@ class Player : public Living {
         bool pickUpItem(Entity* item) override;
         int getSightRange();
         int getItemCount();
+        int getAggro();
 
         void setSightRange(int);
+
+        void statCheck();
     private:
         int inventorySize;
         int itemCount;
         Item* inventory;
         int sightRange;
+        int aggro;
 };
 
 #endif

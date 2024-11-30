@@ -9,8 +9,9 @@
 #include "Player.h"
 
 // Constructor
-Shop::Shop(const string& itemFile) : numberOfItemsForSale(0) {
+Shop::Shop(const string& itemFile, int numItems) {
 
+    numberOfItemsForSale = numItems; // default value
     // load items from file
     loadItemsFromFile(itemFile);
 
@@ -28,20 +29,63 @@ Shop::~Shop() {
 void Shop::loadItemsFromFile(const string& filePath) {
     ifstream inFile(filePath);
     if (!inFile) {
-        cerr << "Error: Could not open file " << filePath << endl;
+        cout << "Error: Could not open file " << filePath << endl;
         return;
     }
 
     string line;
     while (getline(inFile, line)) {
+        if (line.empty()) {
+            continue; // skip empty lines
+        }
+
         istringstream iss(line);
-        int value, x, y, color;
-        string character, name;
+        int value, color, rarity;
+        string character, name, sellableStr;
         bool sellable;
 
-        if (iss >> value >> x >> y >> color >> character >> name >> sellable) {
-            Item* newItem = new Item(value, x, y, color, character, name, sellable);
+        if (iss >> value >> color >> rarity >> character) {
+            // check for space after character
+            char space;
+            iss.get(space);
+            if (space != ' ') {
+                cout << "Error: Missing space after character in line: " << line << endl;
+                continue;
+            }
+
+            // read the rest
+            getline(iss, name);
+            int lastSpace = name.find_last_of(' ');
+            if (lastSpace == string::npos) {
+                cout << "Error: Missing sellable field in line: " << line << endl;
+                continue;
+            }
+
+            // Split name and sellableStr
+            sellableStr = name.substr(lastSpace + 1);
+            name = name.substr(0, lastSpace);
+
+            // convert sellableStr to bool
+            if (sellableStr == "true") {
+                sellable = true;
+            }
+            else if (sellableStr == "false") {
+                sellable = false;
+            }
+            else {
+                cout << "Error: Invalid sellable value in line: " << line << endl;
+                continue;
+            }
+
+            // trim spaces from name
+            name.erase(0, name.find_first_not_of(' '));
+
+            //cout << "Loaded item: " << name << " (Value: " << value << ")" << endl;
+            Item* newItem = new Item(value, 0, 0, color, rarity, character, name, sellable);
             allItems.push_back(newItem);
+        }
+        else {
+            cout << "Error: Invalid item data in line: " << line << endl;
         }
     }
 
@@ -50,27 +94,73 @@ void Shop::loadItemsFromFile(const string& filePath) {
 
 // generate items for sale from loaded items
 void Shop::generateItemsForSale() {
-    itemsArray.clear();
-    itemsForSale.clear();
+    itemsForSale.clear(); // clear just in case
 
-    for (int i = 0; i < 5; ++i) {
-        vector<ItemForSale> row;
-        for (int j = 0; j < 5 && i * 5 + j < static_cast<int>(allItems.size()); ++j) {
-            Item* item = allItems[i * 5 + j];
-            row.push_back({item, item->getValue() * 10, static_cast<float>(rand() % 100) / 100.0f});
+    if (allItems.empty()) {
+        cout << "No items available to generate shop inventory." << endl;
+        return;
+    }
+
+    if (numberOfItemsForSale <= 0) {
+        cout << "Invalid numberOfItemsForSale: " << numberOfItemsForSale << endl;
+        return;
+    }
+
+    int maxRetries = 100; // limit the retries to prevent infinite loops
+    int retryCount = 0;
+
+    while (itemsForSale.size() < numberOfItemsForSale && retryCount < maxRetries) {
+        for (size_t i = 0; i < allItems.size(); ++i) {
+            int rarity = allItems[i]->getRarity();
+
+            // make sure i didnt mess up on rarities
+            if (rarity <= 0) {
+                cout << "Invalid rarity, skipped: " << allItems[i]->getName() << endl;
+                continue;
+            }
+
+            int randomChance = rand() % 100;
+
+            // add based on each item's rarity
+            if (randomChance < (100 / rarity)) {
+                // no dupes
+                bool alreadyInShop = false;
+                for (const auto& itemForSale : itemsForSale) {
+                    if (itemForSale.item == allItems[i]) {
+                        alreadyInShop = true;
+                        break;
+                    }
+                }
+
+                // add to shop if not already there
+                if (!alreadyInShop) {
+                    cout << "Added item: " << allItems[i]->getName()
+                         << " (Value: " << allItems[i]->getValue()
+                         << ", Rarity: " << rarity << ")" << endl;
+                    itemsForSale.push_back({allItems[i], allItems[i]->getValue()});
+                }
+            }
+
+            // if filled, stop
+            if (itemsForSale.size() >= numberOfItemsForSale) {
+                break;
+            }
         }
-        itemsArray.push_back(row);
+
+        retryCount++;
     }
 
-    // randomly select items for sale
-    for (int i = 0; i < 10 && i < static_cast<int>(allItems.size()); ++i) {
-        int row = rand() % itemsArray.size();
-        int col = rand() % itemsArray[row].size();
-        itemsForSale.push_back(itemsArray[row][col]);
+    if (itemsForSale.size() < numberOfItemsForSale) {
+        cout << "Warning: Could not generate enough items for the shop. "
+             << "Only " << itemsForSale.size() << " items added." << endl;
+    } 
+    else {
+        cout << "Successfully generated " << itemsForSale.size() << " items for sale." << endl;
     }
-
-    numberOfItemsForSale = itemsForSale.size();
 }
+
+
+
 
 // sell items from inventory
 void Shop::sellItems(Player* player, int &money) {
@@ -82,15 +172,15 @@ void Shop::sellItems(Player* player, int &money) {
             //player->setInventorySlot(i, new Item());
         }
     }
-   cout << "Items sold successfully!\n";
+   cout << "Items sold successfully!" << endl;
 }
 
 // open the shop menu
 void Shop::openShopMenu(Player* player, int& money) {
-    cout << "Welcome to the Shop! Here are the items available for sale:\n";
-    for (size_t i = 0; i < itemsForSale.size(); ++i) {
+    cout << "Welcome to the Shop! Here are the items available for sale:" << endl;
+    for (int i = 0; i < itemsForSale.size(); ++i) {
         cout << i + 1 << ". " << itemsForSale[i].item->getName()
-                  << " - Price: " << itemsForSale[i].price << "\n";
+                  << " - Price: " << itemsForSale[i].price << endl;
     }
 
     cout << "Enter the number of the item to buy, or 0 to exit: ";
@@ -100,14 +190,14 @@ void Shop::openShopMenu(Player* player, int& money) {
     if (choice > 0 && choice <= static_cast<int>(itemsForSale.size())) {
         buyItem(player, choice - 1, money);
     } else {
-        cout << "Exiting shop menu.\n";
+        cout << "Exiting shop menu." << endl;
     }
 }
 
 // buy an item
 void Shop::buyItem(Player* player, int itemIndex, int &money) {
     if (itemIndex < 0 || itemIndex >= static_cast<int>(itemsForSale.size())) {
-        cout << "Invalid choice.\n";
+        cout << "Invalid choice." << endl;
         return;
     }
 
@@ -117,19 +207,19 @@ void Shop::buyItem(Player* player, int itemIndex, int &money) {
         if (slot != -1) {
             player->setInventorySlot(slot, new Item(*selectedItem.item));
             money -= selectedItem.price;
-            cout << "Item purchased successfully!\n";
+            cout << "Item purchased successfully!" << endl;
         } else {
-            cout << "Inventory is full!\n";
+            cout << "Inventory is full!" << endl;
         }
     } else {
-        cout << "Not enough money to buy this item.\n";
+        cout << "Not enough money to buy this item." << endl;
     }
 }
 
 // get the lowest empty slot in the player's inventory
 int Shop::getLowestEmptySlot(Player* player) {
     for (int i = 0; i < player->getItemCount(); i++) {
-        if (player->getItemFromInventory(i) == nullptr) {
+        if (player->getItemFromInventory(i) == nullptr || player->getItemFromInventory(i)->getName() == "Empty") {
             return i;
         }
     }

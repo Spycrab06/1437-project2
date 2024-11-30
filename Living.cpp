@@ -31,5 +31,5 @@ bool Living::pickUpItem(Entity* item) {
 }
 
 Living::~Living() {
-    cout << "Living destructor" << endl;
+    //cout << "Living destructor" << endl;
 }

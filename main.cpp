@@ -17,7 +17,7 @@ using namespace std;
 bool dungeonLoop(Player* player){
     // create and populate main important dungeon stuff
     vector<Monster*> monsters;
-    Map* mainMap = new Map(30, 30);
+    Map* mainMap = new Map(15, 15);
     mainMap->populateMap();
 
     // create player
@@ -29,7 +29,7 @@ bool dungeonLoop(Player* player){
     mainMap->getTile(randX, randY).setEntity(player);
 
     // create monsters
-    int initialNumMonsters = 3;
+    int initialNumMonsters = 2;
     for (int i = 0; i < initialNumMonsters; ++i) {
         int monsterX = rand() % mainMap->getWidth();
         int monsterY = rand() % mainMap->getHeight();
@@ -89,12 +89,11 @@ bool dungeonLoop(Player* player){
 }
 
 bool shopLoop(Player* player, int& money){
-    Shop* shop = new Shop("items.txt");
-
+    Shop* shop = new Shop("items.txt", 4);
 
     // Main game loop
     while (true) {
-        cout << "\n=== Welcome to the Game Shop ===" << endl;
+        cout << endl << "=== Welcome to the Game Shop ===" << endl;
         cout << "1. View Shop and Buy Items" << endl;
         cout << "2. Sell Items from Inventory" << endl;
         cout << "3. View Inventory" << endl;

@@ -10,10 +10,12 @@ using namespace std;
 Item::Item() : Entity() {
     value = 0;
     sellable = false;
+    rarity = 0;
 }
-Item::Item(int _value, int _x, int _y, int _color, string _character, string _name, bool _sellable) : Entity(_x, _y, _color, _character, _name) {
+Item::Item(int _value, int _x, int _y, int _color, int _rarity, string _character, string _name, bool _sellable) : Entity(_x, _y, _color, _character, _name) {
     value = _value;
     sellable = _sellable;
+    rarity = _rarity;
 }
 
 int Item::getValue() {return value;}
@@ -36,7 +38,7 @@ void Item::interact(Tile* tile, Player* player) {
 }
 
 Item::~Item() {
-    cout << "Item destructor" << endl;
+    //cout << "Item destructor" << endl;
 }
 
 bool Item::isSellable() {
@@ -54,4 +56,8 @@ Item& Item::operator=(const Item& other) {
         setName(other.getName());
     }
     return *this;
+}
+
+int Item::getRarity() {
+    return rarity;
 }

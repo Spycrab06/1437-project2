@@ -97,5 +97,5 @@ Entity& Entity::operator=(const Entity& other) {
 }
 
 Entity::~Entity() {
-    cout << "Entity destructor" << endl;
+    //cout << "Entity destructor" << endl;
 }

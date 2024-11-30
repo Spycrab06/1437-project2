@@ -70,13 +70,11 @@ void Player::startMove(Map* map){
 }
 
 bool Player::pickUpItem(Entity* item) {
-    cout << "Player pickUpItem" << endl;
     if (itemCount >= inventorySize) {
         cout << "Inventory full!" << endl;
         return false;
     }
     aggro += 2;
-    cout << "aggro now: " << aggro << endl;
     inventory[itemCount] = *dynamic_cast<Item*>(item);
     itemCount++;
     return true;

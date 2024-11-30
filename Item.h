@@ -13,10 +13,11 @@ class Player;
 class Item : public Entity {
     public:
         Item();
-        Item(int, int, int, int, string, string, bool);
+        Item(int, int, int, int, int, string, string, bool);
         ~Item() override;
 
         int getValue();
+        int getRarity();
 
         void setValue(int _value);
         bool isSellable();
@@ -27,7 +28,7 @@ class Item : public Entity {
     private:
         int value;
         bool sellable;
-        
+        int rarity;
 };
 
 #endif

@@ -18,7 +18,7 @@ using namespace std;
 //7: Default white
 //8: Gray/Grey
 //9: Bright blue
-//10: Brigth green
+//10: Bright green
 //11: Bright cyan
 //12: Bright red
 //13: Pink/Magenta
@@ -64,7 +64,7 @@ void Monster::startMove(Map* map){
     int distanceY = abs(player->getY() - getY());
     if(anger <= player->getAggro()){
         anger = player->getAggro();
-        cout << "aggro " << anger << endl;
+        //cout << "aggro " << anger << endl;
     }
 
     if(distanceX <= sight && distanceY <= sight){
@@ -96,7 +96,7 @@ void Monster::startMove(Map* map){
     else{
         currentTimer--;
     }
-    cout << "anger: " << anger << endl;
+    //cout << "anger: " << anger << endl;
 }
 
 void Monster::wander(Map* map) {

@@ -42,3 +42,16 @@ Item::~Item() {
 bool Item::isSellable() {
     return sellable;
 }
+
+Item& Item::operator=(const Item& other) {
+    if (this != &other) {
+        value = other.value;
+        sellable = other.sellable;
+        setX(other.getX());
+        setY(other.getY());
+        setColor(other.getColor());
+        setCharacter(other.getCharacter());
+        setName(other.getName());
+    }
+    return *this;
+}

@@ -16,19 +16,19 @@ class Entity {
         virtual ~Entity();
         void move(int _x, int _y, Map* _map, string type);
 
-        int getX();
-        int getY();
-        int getColor();
-        string getCharacter();
-        string getName();
+        int getX() const;
+        int getY() const;
+        int getColor() const;
+        string getCharacter() const;
+        string getName() const;
 
         void setColor(int _color);
         void setCharacter(string _character);
         void setX(int);
         void setY(int);
         void setName(string _name);
-        Entity& operator=(const Entity& other);
 
+        virtual Entity& operator=(const Entity& other);
         virtual void interact(Tile* tile, Player* player);
         virtual void startMove(Map* map);
         virtual bool pickUpItem(Entity* item);

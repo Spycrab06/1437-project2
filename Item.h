@@ -22,6 +22,8 @@ class Item : public Entity {
         bool isSellable();
 
         void interact(Tile* tile, Player* player) override;
+
+        Item& operator=(const Item& other);
     private:
         int value;
         bool sellable;

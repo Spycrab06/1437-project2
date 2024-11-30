@@ -2,13 +2,16 @@
 #include <vector>
 
 #include "Map.h"
+#include "Entity.h"
+#include "Living.h"
+#include "Item.h"
+#include "Building.h"
 #include "Tile.h"
 #include "Player.h"
 #include "Monster.h"
 #include "Shop.h"
 
 using namespace std;
-
 
 // dungeon stuff
 bool dungeonLoop(Player* player){

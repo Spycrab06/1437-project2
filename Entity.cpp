@@ -10,7 +10,7 @@ Entity::Entity() {
     y = 0;
     color = 1;
     character = "N ";
-    name = "Null";
+    name = "Empty";
 }
 
 Entity::Entity(int _x, int _y, int _color, string _character, string _name) {
@@ -21,11 +21,11 @@ Entity::Entity(int _x, int _y, int _color, string _character, string _name) {
     name = _name;
 }
 
-int Entity::getX() {return x;}
-int Entity::getY() {return y;}
-int Entity::getColor() {return color;}
-string Entity::getCharacter() {return character;}
-string Entity::getName() {return name;}
+int Entity::getX() const {return x;}
+int Entity::getY() const {return y;}
+int Entity::getColor() const {return color;}
+string Entity::getCharacter() const {return character;}
+string Entity::getName() const {return name;}
 
 void Entity::setColor(int _color) {color = _color;}
 void Entity::setCharacter(string _character) {character = _character;}

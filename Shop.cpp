@@ -78,7 +78,8 @@ void Shop::sellItems(Player* player, int &money) {
         Item* currentItem = player->getItemFromInventory(i);
         if (currentItem && currentItem->isSellable()) {
             money += currentItem->getValue();
-            player->setInventorySlot(i, nullptr);
+            player->deleteItemFromInventory(i);
+            //player->setInventorySlot(i, new Item());
         }
     }
    cout << "Items sold successfully!\n";

@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include "Player.h"
+#include "Item.h"
 
 using namespace std;
 
@@ -109,4 +110,8 @@ Item* Player::getItemFromInventory(int index){
 
 void Player::setInventorySlot(int index, Item* item){
     inventory[index] = *item;
+}
+
+void Player::deleteItemFromInventory(int index){
+    inventory[index] = Item();
 }

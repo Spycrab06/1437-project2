@@ -23,6 +23,7 @@ class Player : public Living {
         int getAggro();
         Item* getItemFromInventory(int);
         void setInventorySlot(int, Item*);
+        void deleteItemFromInventory(int);
         void setSightRange(int);
 
         void statCheck();

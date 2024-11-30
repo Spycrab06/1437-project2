@@ -159,12 +159,9 @@ void Shop::generateItemsForSale() {
     }
 }
 
-
-
-
 // sell items from inventory
 void Shop::sellItems(Player* player, int &money) {
-    for (int i = 0; i < player->getItemCount(); i++) {
+    for (int i = player->getItemCount(); i >= 0; i++) {
         Item* currentItem = player->getItemFromInventory(i);
         if (currentItem && currentItem->isSellable()) {
             money += currentItem->getValue();
@@ -172,7 +169,7 @@ void Shop::sellItems(Player* player, int &money) {
             //player->setInventorySlot(i, new Item());
         }
     }
-   cout << "Items sold successfully!" << endl;
+    cout << "Items sold successfully!" << endl;
 }
 
 // open the shop menu
@@ -189,7 +186,8 @@ void Shop::openShopMenu(Player* player, int& money) {
 
     if (choice > 0 && choice <= static_cast<int>(itemsForSale.size())) {
         buyItem(player, choice - 1, money);
-    } else {
+    } 
+    else {
         cout << "Exiting shop menu." << endl;
     }
 }
@@ -203,25 +201,28 @@ void Shop::buyItem(Player* player, int itemIndex, int &money) {
 
     ItemForSale& selectedItem = itemsForSale[itemIndex];
     if (money >= selectedItem.price) {
-        int slot = getLowestEmptySlot(player);
-        if (slot != -1) {
-            player->setInventorySlot(slot, new Item(*selectedItem.item));
+        if (player->getItemCount() < player->getInventorySize()) {
+            player->addItemToInventory(new Item(*selectedItem.item));
             money -= selectedItem.price;
             cout << "Item purchased successfully!" << endl;
-        } else {
+        } 
+        else {
             cout << "Inventory is full!" << endl;
         }
-    } else {
+    } 
+    else {
         cout << "Not enough money to buy this item." << endl;
     }
 }
 
 // get the lowest empty slot in the player's inventory
 int Shop::getLowestEmptySlot(Player* player) {
-    for (int i = 0; i < player->getItemCount(); i++) {
-        if (player->getItemFromInventory(i) == nullptr || player->getItemFromInventory(i)->getName() == "Empty") {
-            return i;
-        }
-    }
-    return -1; // No empty slots
+    // for (int i = 0; i < player->getItemCount(); i++) {
+    //     if (player->getItemFromInventory(i) == nullptr || player->getItemFromInventory(i)->getName() == "Empty") {
+    //         return i;
+    //     }
+    // }
+    // return -1; // No empty slots
+
+    return player->getItemCount();
 }

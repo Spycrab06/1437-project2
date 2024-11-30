@@ -42,16 +42,18 @@ bool dungeonLoop(Player* player){
     int turn = 1;
     bool playerAlive = true;
 
+    mainMap->printMap(player);
+
     // main dungeon loop
     while(playerAlive){
         try
         {
+            player->statCheck();
             player->startMove(mainMap);
             for (Monster* monster : monsters) {
                 monster->startMove(mainMap);
             }
             mainMap->printMap(player);
-            player->statCheck();
 
             // every set number of turns, add a new monster
             if(turn % 20 == 0){
@@ -121,10 +123,11 @@ bool shopLoop(Player* player, int& money){
             case 3:
                 cout << "\n=== Player Inventory ===\n";
                 for (int i = 0; i < player->getItemCount(); ++i) {
-                    if (player->getItemFromInventory(i) != nullptr) {
+                    if (player->getItemFromInventory(i)) {
                         cout << i + 1 << ". " << player->getItemFromInventory(i)->getName()
                              << " (Value: " << player->getItemFromInventory(i)->getValue() << ")\n";
-                    } else {
+                    } 
+                    else {
                         cout << i + 1 << ". [Empty Slot]\n";
                     }
                 }

@@ -263,9 +263,18 @@ void Monster::interact(Tile* tile, Player* _player) {
     enum Choice { ROCK, PAPER, SCISSORS };
     cout << "Monster attacks player" << endl;
     int choice;
-    std::cout << "Enter your choice (0 = ROCK, 1 = PAPER, 2 = SCISSORS): ";
-    std::cin >> choice;
-    Choice playerChoice = static_cast<Choice>(choice);
+    cout << "Enter your choice (0 = ROCK, 1 = PAPER, 2 = SCISSORS): ";
+    cin >> choice;
+
+    Choice playerChoice;
+    // check if the input is valid
+    if(choice != 0 && choice != 1 && choice != 2){
+        cout << "Invalid choice" << endl;
+        return;
+    }
+    else{
+        playerChoice = static_cast<Choice>(choice);
+    }
     Choice monsterChoice = static_cast<Choice>(rand() % 3);
 
     if (playerChoice == monsterChoice) {

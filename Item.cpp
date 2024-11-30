@@ -39,6 +39,7 @@ void Item::interact(Tile* tile, Player* player) {
 
 Item::~Item() {
     //cout << "Item destructor" << endl;
+    
 }
 
 bool Item::isSellable() {

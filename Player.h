@@ -3,6 +3,7 @@
 
 #include <string>
 #include "Living.h"
+#include <vector>
 
 using namespace std;
 
@@ -21,16 +22,19 @@ class Player : public Living {
         int getSightRange();
         int getItemCount();
         int getAggro();
+        int getInventorySize();
         Item* getItemFromInventory(int);
         void setInventorySlot(int, Item*);
         void deleteItemFromInventory(int);
         void setSightRange(int);
 
+        void removeItemFromInventory(int);
+        void addItemToInventory(Item*);
+
         void statCheck();
     private:
         int inventorySize;
-        int itemCount;
-        Item* inventory;
+        vector<Item> inventory;
         int sightRange;
         int aggro;
 };

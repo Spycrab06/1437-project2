@@ -7,27 +7,26 @@ using namespace std;
 
 Player::Player() : Living() {
     inventorySize = 4;
-    inventory = new Item[inventorySize];
-    for (int i = 0; i < inventorySize; i++) {
-        inventory[i] = Item();
-    }
+    inventory.reserve(inventorySize);
+    // for (int i = 0; i < inventorySize; i++) {
+    //     inventory[i] = Item();
+    // }
 
     aggro = 0;
 }
 
 Player::Player(int _health, int _attack, int _x, int _y, int _color, string _character, string _name, int _sight) : Living(_health, _attack, _x, _y, _color, _character, _name) {
-    itemCount = 0;
     inventorySize = 4;
-    inventory = new Item[inventorySize];
-    for (int i = 0; i < inventorySize; i++) {
-       inventory[i] = Item();
-    }
+    inventory.reserve(inventorySize);
+    // for (int i = 0; i < inventorySize; i++) {
+    //    inventory[i] = Item();
+    // }
     sightRange = _sight;
     aggro = 0;
 }
 
 Player::~Player() {
-    delete[] inventory;
+    inventory.clear();
 }
 
 void Player::startMove(Map* map){
@@ -70,18 +69,18 @@ void Player::startMove(Map* map){
 }
 
 bool Player::pickUpItem(Entity* item) {
-    if (itemCount >= inventorySize) {
+    if (inventory.size() >= inventorySize) {
         cout << "Inventory full!" << endl;
         return false;
     }
     aggro += 2;
-    inventory[itemCount] = *dynamic_cast<Item*>(item);
-    itemCount++;
+    //inventory[inventory.size() + 1] = *dynamic_cast<Item*>(item);
+    addItemToInventory(dynamic_cast<Item*>(item));
     return true;
 }
 
 int Player::getItemCount() {
-    return itemCount;
+    return inventory.size();
 }
 
 int Player::getSightRange(){
@@ -111,5 +110,14 @@ void Player::setInventorySlot(int index, Item* item){
 }
 
 void Player::deleteItemFromInventory(int index){
-    inventory[index] = Item();
+    inventory.erase(inventory.begin() + index);
 }
+
+int Player::getInventorySize(){
+    return inventorySize;
+}
+
+void Player::addItemToInventory(Item* item){
+    inventory.emplace_back(*item);
+}
+

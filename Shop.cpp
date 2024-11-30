@@ -161,7 +161,7 @@ void Shop::generateItemsForSale() {
 
 // sell items from inventory
 void Shop::sellItems(Player* player, int &money) {
-    for (int i = player->getItemCount(); i >= 0; i++) {
+    for (int i = player->getItemCount(); i >= 0; i--) {
         Item* currentItem = player->getItemFromInventory(i);
         if (currentItem && currentItem->isSellable()) {
             money += currentItem->getValue();

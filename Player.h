@@ -21,7 +21,8 @@ class Player : public Living {
         int getSightRange();
         int getItemCount();
         int getAggro();
-
+        Item* getItemFromInventory(int);
+        void setInventorySlot(int, Item*);
         void setSightRange(int);
 
         void statCheck();

@@ -102,3 +102,11 @@ void Player::statCheck(){
 int Player::getAggro(){
     return aggro;
 }
+
+Item* Player::getItemFromInventory(int index){
+    return &inventory[index];
+}
+
+void Player::setInventorySlot(int index, Item* item){
+    inventory[index] = *item;
+}

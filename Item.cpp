@@ -9,9 +9,11 @@ using namespace std;
 
 Item::Item() : Entity() {
     value = 0;
+    sellable = false;
 }
-Item::Item(int _value, int _x, int _y, int _color, string _character, string _name) : Entity(_x, _y, _color, _character, _name) {
+Item::Item(int _value, int _x, int _y, int _color, string _character, string _name, bool _sellable) : Entity(_x, _y, _color, _character, _name) {
     value = _value;
+    sellable = _sellable;
 }
 
 int Item::getValue() {return value;}
@@ -35,4 +37,8 @@ void Item::interact(Tile* tile, Player* player) {
 
 Item::~Item() {
     cout << "Item destructor" << endl;
+}
+
+bool Item::isSellable() {
+    return sellable;
 }

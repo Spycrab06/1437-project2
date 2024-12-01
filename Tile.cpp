@@ -144,9 +144,14 @@ void Tile::setX(int _x) {x = _x;}
 void Tile::setY(int _y) {y = _y;}
 
 Tile::~Tile() {
-    delete entity;
-    delete monster;
-    delete interactable;
+    if (monster != nullptr) {
+        delete monster;
+    }
+    if (interactable != nullptr) {
+        delete interactable;
+    }
+    // Don't delete entity (player) as it's managed elsewhere
+    entity = nullptr;
 }
 
 int Tile::distanceToPlayerX(Player* player){

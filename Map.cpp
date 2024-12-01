@@ -21,8 +21,9 @@ Map::Map(int _width, int _height){
     for (int i = 0; i < height; i++) {
         grid[i] = new Tile[width];
         for (int j = 0; j < width; j++) {
-            grid[i][j].setX(i);
-            grid[i][j].setY(j);
+            // Fix: j is x (width), i is y (height)
+            grid[i][j].setX(j);  // CHANGED THIS LINE
+            grid[i][j].setY(i);  // CHANGED THIS LINE
         }
     }
 }
@@ -76,7 +77,13 @@ void Map::printMap(Player* player){
 
 int Map::getWidth() {return width;}
 int Map::getHeight() {return height;}
-Tile& Map::getTile(int x, int y) { return grid[x][y]; }
+
+Tile& Map::getTile(int x, int y) { 
+    if (y < 0 || y >= height || x < 0 || x >= width) {
+        throw std::out_of_range("Tile coordinates out of bounds");
+    }
+    return grid[y][x];  // Use y,x order to match our allocation
+}
 
 
 

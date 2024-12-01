@@ -4,6 +4,59 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-    
+        {
+            "name": "Debug g++",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/main_debug.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            //"console": "integratedTerminal",
+            "console": "externalTerminal", // easier to see build warnings as game clears the screen
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "C:\\msys64\\clang64\\bin;C:\\msys64\\mingw64\\bin;${env:PATH}"
+                }
+            ],
+            "preLaunchTask": "C/C++: Debug Build"
+        },
+        {
+            "name": "Debug Clang ASAN",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/main_clang_debug.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            //"console": "externalTerminal", // easier to see build warnings as game clears the screen
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "C:\\msys64\\clang64\\bin;C:\\msys64\\mingw64\\bin;${env:PATH}"
+                }, 
+                {
+                    "name": "ASAN_OPTIONS",
+                    "value": "print_legend=1:verbose=1:halt_on_error=1:abort_on_error=1:log_path=asan_log.txt"
+                }
+            ],
+            "preLaunchTask": "C/C++: Clang Debug Build"
+        },
+        {
+            "name": "Release",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/main_clang_debug.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "C:\\msys64\\clang64\\bin;C:\\msys64\\mingw64\\bin;${env:PATH}"
+                }
+            ],
+            "preLaunchTask": "C/C++: Release Build"
+        }
     ]
 }

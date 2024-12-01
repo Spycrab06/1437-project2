@@ -40,22 +40,20 @@ void Player::startMove(Map* map, string inMove) {
     int newY = getY();
 
     // x and y are flipped, no clue why
-    switch (dir) {
-        case 'W': // up
-            newX -= 1;
-            break;
-        case 'A': // left
-            newY -= 1;
-            break;
-        case 'S': // down
-            newX += 1;
-            break;
-        case 'D': // right
-            newY += 1;
-            break;
-        default:
-            cout << "Invalid direction!" << endl;
-            return;
+    switch (dir)
+    {
+    case 'W':      // up
+        newY -= 1; // CHANGE THIS LINE (was newX)
+        break;
+    case 'A':      // left
+        newX -= 1; // CHANGE THIS LINE (was newY)
+        break;
+    case 'S':      // down
+        newY += 1; // CHANGE THIS LINE (was newX)
+        break;
+    case 'D':      // right
+        newX += 1; // CHANGE THIS LINE (was newY)
+        break;
     }
     // move player
     move(newX, newY, map, "player");

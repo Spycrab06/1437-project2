@@ -68,6 +68,7 @@ bool dungeonLoop(Player* player){
     vector<Monster*> monsters;
     int randMapX = rand() % 10 + 15;
     int randMapY = rand() % 10 + 15;
+    //int randMapSize = rand() % 8 + 8;
     Map* mainMap = new Map(randMapX, randMapY);
     mainMap->populateMap();
 
@@ -158,7 +159,7 @@ bool shopLoop(Player* player, int& money){
     while (true) {
         cout << endl << "=== Welcome to the Game Shop ===" << endl;
         cout << "1. View Shop and Buy Items" << endl;
-        cout << "2. Buld Sell Valubles" << endl;
+        cout << "2. Bulk Sell Valubles" << endl;
         cout << "3. Sell Specific Item" << endl;
         cout << "4. View Inventory" << endl;
         cout << "5. Exit Shop" << endl;

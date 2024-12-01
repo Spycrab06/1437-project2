@@ -1,7 +1,7 @@
 40 2 2 1 Sight ^ Flashlight false true
 30 2 3 1 Health B Shield false true
-10 11 1 4 Anger * Repellent false false
-20 11 4 -4 Anger o Attractor false false
+10 11 1 -4 Anger * Repellent false false
+20 11 4 4 Anger o Attractor false false
 60 9 5 2 Health # Armor false true
 80 3 8 3 Luck ! Rigged-Dice false true
 20 6 3 1 Duck d Rubber-Duck false false

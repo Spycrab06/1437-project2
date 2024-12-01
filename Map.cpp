@@ -27,8 +27,11 @@ Map::Map(int _width, int _height){
     }
 }
 
-Map::~Map(){
-    delete[] grid;
+Map::~Map() {
+    for (int i = 0; i < height; i++) {
+        delete[] grid[i];  // Delete each row
+    }
+    delete[] grid;  // Delete array of pointers
 }
 
 void Map::printMap(Player* player){
@@ -77,7 +80,7 @@ Tile& Map::getTile(int x, int y) { return grid[x][y]; }
 
 
 
-void Map::populateMap(){
+void Map::populateMap() {
     // define the types
     enum ItemType {TRAP, TREASURE, MAGIC, BERRIES, EXIT, ITEM_TYPE_COUNT};
     int baseCounts[ITEM_TYPE_COUNT] = {25, 15, 0, 0, 1};
@@ -89,59 +92,43 @@ void Map::populateMap(){
         actualCounts[i] = baseCounts[i] + (rand() % (variances[i] + 1));
     }
 
-    // scatter items based on the counts
-
-    // template
-    /*
-    for (int i = 0; i < actualCounts[___NEED_TO_CHANGE___]; ++i) {
-        int x = rand() % width;
-        int y = rand() % height;
-        // x, y, color, char, name
-        grid[x][y].setInteractable(new Building(x, y, 0, ". ", "Template"));
-    }
-    */
-
     // trap
     for (int i = 0; i < actualCounts[TRAP]; ++i) {
-        int x = rand() % width;
-        int y = rand() % height;
-        grid[x][y].setInteractable(new Building(x, y, 4, "x ", "Trap"));
+        int y = rand() % height;  // First dimension
+        int x = rand() % width;   // Second dimension
+        grid[y][x].setInteractable(new Building(x, y, 4, "x ", "Trap"));
     }
 
     // treasure
     for (int i = 0; i < actualCounts[TREASURE]; ++i) {
-        int x = rand() % width;
         int y = rand() % height;
+        int x = rand() % width;
         int randValue = rand() % 10 + 5;
-        // value, x, y, color, rarity, increase, type, character, name, sellable, passive)
-        grid[x][y].setInteractable(new Item(randValue, x, y, 6, 1, 1, "Treasure", "O ", "Treasure", true, false));
+        grid[y][x].setInteractable(new Item(randValue, x, y, 6, 1, 1, "Treasure", "O ", "Treasure", true, false));
     }
 
-    // magic tresure
+    // magic treasure
     for (int i = 0; i < actualCounts[MAGIC]; ++i) {
-        int x = rand() % width;
         int y = rand() % height;
+        int x = rand() % width;
         int randValue = rand() % 5 + 15;
-        // value, x, y, color, rarity, increase, type, character, name, sellable, passive)
-        grid[x][y].setInteractable(new Item(randValue, x, y, 5, 1, 1, "Treasure", "U ", "Magic-Treasure", true, false));
+        grid[y][x].setInteractable(new Item(randValue, x, y, 5, 1, 1, "Treasure", "U ", "Magic-Treasure", true, false));
     }
 
     // magic berries
     for (int i = 0; i < actualCounts[BERRIES]; ++i) {
-        int x = rand() % width;
         int y = rand() % height;
+        int x = rand() % width;
         int randValue = rand() % 8 + 3;
-        // value, x, y, color, rarity, increase, type, character, name, sellable, passive)
-        grid[x][y].setInteractable(new Item(randValue, x, y, 10, 1, 6, "Anger", "Q ", "Berries", true, false));
+        grid[y][x].setInteractable(new Item(randValue, x, y, 10, 1, -6, "Anger", "Q ", "Berries", true, false));
     }
 
     // escape
     for (int i = 0; i < actualCounts[EXIT]; ++i) {
-        int x = rand() % width;
         int y = rand() % height;
-        grid[x][y].setInteractable(new Building(x, y, 1, "E ", "Exit"));
+        int x = rand() % width;
+        grid[y][x].setInteractable(new Building(x, y, 1, "E ", "Exit"));
     }
-
 }
 
 //0: Black

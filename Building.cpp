@@ -30,5 +30,5 @@ void Building::interact(Tile* tile, Player* player) {
 }
 
 Building::~Building() {
-    cout << "Building destructor" << endl;
+    //cout << "Building destructor" << endl;
 }

@@ -36,7 +36,7 @@ class Entity {
 
         virtual Entity& operator=(const Entity& other);
         virtual void interact(Tile* tile, Player* player);
-        virtual void startMove(Map* map);
+        virtual void startMove(Map* map, string inMove);
         virtual bool pickUpItem(Entity* item);
     private:
         int x, y;

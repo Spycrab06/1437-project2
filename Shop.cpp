@@ -40,11 +40,11 @@ void Shop::loadItemsFromFile(const string& filePath) {
         }
 
         istringstream iss(line);
-        int value, color, rarity;
-        string character, name, sellableStr;
-        bool sellable;
+        int value, color, rarity, increase;
+        string character, name, sellableStr, passiveStr, type;
+        bool sellable, passive;
 
-        if (iss >> value >> color >> rarity >> character) {
+        if (iss >> value >> color >> rarity >> increase >> type >> character ) {
             // check for space after character
             char space;
             iss.get(space);
@@ -61,17 +61,31 @@ void Shop::loadItemsFromFile(const string& filePath) {
                 continue;
             }
 
+            // Split name and passiveString
+            passiveStr = name.substr(lastSpace + 1);
+            name = name.substr(0, lastSpace);
+
+            // convert passive to bool
+            if (passiveStr == "true") {passive = true;}
+            else if (passiveStr == "false") {passive = false;}
+            else {
+                cout << "Error: Invalid passive value in line: " << line << endl;
+                continue;
+            }
+
+            lastSpace = name.find_last_of(' ');
+            if (lastSpace == string::npos) {
+                cout << "Error: Missing passive field in line: " << line << endl;
+                continue;
+            }
+            
             // Split name and sellableStr
             sellableStr = name.substr(lastSpace + 1);
             name = name.substr(0, lastSpace);
 
             // convert sellableStr to bool
-            if (sellableStr == "true") {
-                sellable = true;
-            }
-            else if (sellableStr == "false") {
-                sellable = false;
-            }
+            if (sellableStr == "true") {sellable = true;}
+            else if (sellableStr == "false") {sellable = false;}
             else {
                 cout << "Error: Invalid sellable value in line: " << line << endl;
                 continue;
@@ -81,7 +95,7 @@ void Shop::loadItemsFromFile(const string& filePath) {
             name.erase(0, name.find_first_not_of(' '));
 
             //cout << "Loaded item: " << name << " (Value: " << value << ")" << endl;
-            Item* newItem = new Item(value, 0, 0, color, rarity, character, name, sellable);
+            Item* newItem = new Item(value, 0, 0, color, rarity, increase, type, character + " ", name, sellable, passive);
             allItems.push_back(newItem);
         }
         else {
@@ -134,9 +148,9 @@ void Shop::generateItemsForSale() {
 
                 // add to shop if not already there
                 if (!alreadyInShop) {
-                    cout << "Added item: " << allItems[i]->getName()
-                         << " (Value: " << allItems[i]->getValue()
-                         << ", Rarity: " << rarity << ")" << endl;
+                    //cout << "Added item: " << allItems[i]->getName()
+                    //     << " (Value: " << allItems[i]->getValue()
+                    //     << ", Rarity: " << rarity << ")" << endl;
                     itemsForSale.push_back({allItems[i], allItems[i]->getValue()});
                 }
             }
@@ -155,7 +169,7 @@ void Shop::generateItemsForSale() {
              << "Only " << itemsForSale.size() << " items added." << endl;
     } 
     else {
-        cout << "Successfully generated " << itemsForSale.size() << " items for sale." << endl;
+        //cout << "Successfully generated " << itemsForSale.size() << " items for sale." << endl;
     }
 }
 
@@ -166,7 +180,7 @@ void Shop::sellItems(Player* player, int &money) {
         Item* currentItem = player->getItemFromInventory(i);
         if (currentItem && currentItem->isSellable()) {
             money += currentItem->getValue();
-            cout << "Selling at index: " << i << endl;
+            //cout << "Selling at index: " << i << endl;
             player->deleteItemFromInventory(i);
             //player->setInventorySlot(i, new Item());
         }
@@ -176,6 +190,8 @@ void Shop::sellItems(Player* player, int &money) {
 
 // open the shop menu
 void Shop::openShopMenu(Player* player, int& money) {
+    cout << endl;
+    cout << "Money: " << money << endl;
     cout << "Welcome to the Shop! Here are the items available for sale:" << endl;
     for (int i = 0; i < itemsForSale.size(); ++i) {
         cout << i + 1 << ". " << itemsForSale[i].item->getName()
@@ -204,7 +220,9 @@ void Shop::buyItem(Player* player, int itemIndex, int &money) {
     ItemForSale& selectedItem = itemsForSale[itemIndex];
     if (money >= selectedItem.price) {
         if (player->getItemCount() < player->getInventorySize()) {
-            player->addItemToInventory(new Item(*selectedItem.item));
+            Item* newItem = new Item(*selectedItem.item);
+            newItem->setValue(selectedItem.price /= 2);
+            player->addItemToInventory(newItem);
             money -= selectedItem.price;
             cout << "Item purchased successfully!" << endl;
         } 

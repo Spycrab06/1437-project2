@@ -79,9 +79,9 @@ Tile& Map::getTile(int x, int y) { return grid[x][y]; }
 
 void Map::populateMap(){
     // define the types
-    enum ItemType {TRAP, TREASURE, EXIT, ITEM_TYPE_COUNT};
-    int baseCounts[ITEM_TYPE_COUNT] = {20, 10, 1};
-    int variances[ITEM_TYPE_COUNT] = {20, 10, 3};
+    enum ItemType {TRAP, TREASURE, MAGIC, BERRIES, EXIT, ITEM_TYPE_COUNT};
+    int baseCounts[ITEM_TYPE_COUNT] = {25, 15, 0, 0, 1};
+    int variances[ITEM_TYPE_COUNT] = {30, 20, 5, 5, 3};
 
     // add varience
     int actualCounts[ITEM_TYPE_COUNT];
@@ -112,7 +112,27 @@ void Map::populateMap(){
     for (int i = 0; i < actualCounts[TREASURE]; ++i) {
         int x = rand() % width;
         int y = rand() % height;
-        grid[x][y].setInteractable(new Item(10, x, y, 6, 100, "O ", "Treasure", true));
+        int randValue = rand() % 10 + 5;
+        // value, x, y, color, rarity, increase, type, character, name, sellable, passive)
+        grid[x][y].setInteractable(new Item(randValue, x, y, 6, 1, 1, "Treasure", "O ", "Treasure", true, false));
+    }
+
+    // magic tresure
+    for (int i = 0; i < actualCounts[MAGIC]; ++i) {
+        int x = rand() % width;
+        int y = rand() % height;
+        int randValue = rand() % 5 + 15;
+        // value, x, y, color, rarity, increase, type, character, name, sellable, passive)
+        grid[x][y].setInteractable(new Item(randValue, x, y, 5, 1, 1, "Treasure", "U ", "Magic-Treasure", true, false));
+    }
+
+    // magic berries
+    for (int i = 0; i < actualCounts[BERRIES]; ++i) {
+        int x = rand() % width;
+        int y = rand() % height;
+        int randValue = rand() % 8 + 3;
+        // value, x, y, color, rarity, increase, type, character, name, sellable, passive)
+        grid[x][y].setInteractable(new Item(randValue, x, y, 10, 1, 6, "Anger", "Q ", "Berries", true, false));
     }
 
     // escape

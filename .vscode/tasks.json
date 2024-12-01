@@ -11,9 +11,9 @@
                 "${fileDirname}\\**.h",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "-Wall",
-                "-Wextra",
-                "-D_DEBUG"
+                // "-Wall",
+                // "-Wextra",
+                // "-D_DEBUG"
 
             ],
             "options": {

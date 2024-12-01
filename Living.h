@@ -29,10 +29,13 @@ class Living : public Entity {
 
         void setInventorySize(int _size);
 
+        void setMaxAnger(int _anger);
+        void setCurrentAnger(int _anger);
+
         // gets
-        int getStartHealth();
-        int getModHealth();
-        int getCurrentHealth();
+        int getStartHealth() const;
+        int getModHealth() const;
+        int getCurrentHealth() const;
 
         int getStartAttack();
         int getModAttack();
@@ -43,18 +46,27 @@ class Living : public Entity {
         int getInventorySize();
         int getItemCount();
 
+        int getMaxAnger();
+        int getCurrentAnger();
+
+        void changeCurrentAnger(int _anger);
+
 
         // other
-        void startMove(Map* map) override;
+        void startMove(Map* map, string) override;
 
         bool pickUpItem(Entity* item) override;
         Item* getItemFromInventory(int);
         void addItemToInventory(Item*);
         void deleteItemFromInventory(int);
 
+        void deleteSpecificItem(Item*);
+
+        vector<Item> getInventory() const;
+        void setInventory(vector<Item>);
+
         // check health and also if items give stat boosts
         int statCheck();
-
     private:
         // mainly used for player, can be used for monster drops
         int inventorySize;
@@ -72,6 +84,12 @@ class Living : public Entity {
         // 0: start attack
         // 1: mod attack
         int attack[2];
+
+        // used player as aggro
+        // used monster as anger
+        int anger[2];
+
+        void resetStats();
 };
 
 #endif

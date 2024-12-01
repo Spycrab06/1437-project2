@@ -15,13 +15,11 @@ class Monster : public Living {
         Monster();
         Monster(int, int, int, int, int, string, string, Player*, int, int, int, int, int);
         ~Monster() override;
-        void startMove(Map* map) override;
+        void startMove(Map* map, string inMove) override;
 
         void wander(Map* map);
         void stalk(Map* map);
         void attack(Map* map);
-
-        void increaseAnger(int);
 
         Entity* getDrop();
 
@@ -34,7 +32,6 @@ class Monster : public Living {
         int moveTimer;
         int currentTimer;
         int angerThreshold;
-        int anger;
         int currentAnger;
         int followDistance;
 };

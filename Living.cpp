@@ -1,6 +1,7 @@
 #include <string>
 #include "Living.h"
 #include "Map.h"
+#include "Item.h"
 
 using namespace std;
 
@@ -13,6 +14,7 @@ Living::Living() : Entity() {
     for(int i = 0; i < 2; i++){
         attack[i] = 1;
         sightRange[i] = 3;
+        anger[i] = 0;
     }
 }
 
@@ -28,6 +30,9 @@ Living::Living(int _health, int _attack, int _x, int _y, int _color, int _sight,
         attack[i] = _attack;
         sightRange[i] = _sight;
     }
+
+    anger[0] = 10;
+    anger[1] = 0;
 }
 
 void Living::setStartHealth(int _health) {health[0] = _health;}
@@ -42,9 +47,9 @@ void Living::setModSightRange(int _sight) {sightRange[1] = _sight;}
 
 void Living::takeDamage(int damage) {health[2] -= damage;}
 
-int Living::getStartHealth() {return health[0];}
-int Living::getModHealth() {return health[1];}
-int Living::getCurrentHealth() {return health[2];}
+int Living::getStartHealth() const {return health[0];}
+int Living::getModHealth() const {return health[1];}
+int Living::getCurrentHealth() const {return health[2];}
 
 int Living::getStartAttack() {return attack[0];}
 int Living::getModAttack() {return attack[1];}
@@ -52,7 +57,7 @@ int Living::getModAttack() {return attack[1];}
 int Living::getStartSightRange() {return sightRange[0];}
 int Living::getModSightRange() {return sightRange[1];}
 
-void Living::startMove(Map* map) {
+void Living::startMove(Map* map, string inMove) {
     cout << "Living startMove" << endl;
 }
 
@@ -75,6 +80,31 @@ int Living::statCheck(){
         return 1;
     }
 
+    resetStats();
+
+    for(const Item& item : inventory){
+        if(item.getPassive()){
+            if(item.getType() == "Health"){
+                setModHealth(getStartHealth() + item.getIncreaseAmount());
+            }
+            else if(item.getType() == "Attack"){
+                setModAttack(getStartAttack() + item.getIncreaseAmount());
+            }
+            else if(item.getType() == "Sight"){
+                setModSightRange(getStartSightRange() + item.getIncreaseAmount());
+            }
+            else if(item.getType() == "Hat"){
+                setModCharacter(item.getStartCharacter());
+            }
+            else if(item.getType() == "Dye"){
+                setModColor(item.getStartColor());
+            }
+        }
+    }
+
+    if(getCurrentHealth() > getModHealth()){
+        setCurrentHealth(getModHealth());
+    }
 
     return 0;
 }
@@ -102,7 +132,54 @@ int Living::getInventorySize(){
     return inventorySize;
 }
 
+void Living::setInventorySize(int _size){
+    inventorySize = _size;
+}
+
 void Living::addItemToInventory(Item* item){
     inventory.emplace_back(*item);
 }
 
+void Living::setCurrentAnger(int _anger){
+    anger[1] = _anger;
+}
+
+int Living::getCurrentAnger(){
+    return anger[1];
+}
+
+void Living::setMaxAnger(int _anger){
+    anger[0] = _anger;
+}
+
+int Living::getMaxAnger(){
+    return anger[0];
+}
+
+void Living::changeCurrentAnger(int _anger){
+    anger[1] += _anger;
+}
+
+void Living::resetStats(){
+    setModHealth(getStartHealth());
+    setModAttack(getStartAttack());
+    setModSightRange(getStartSightRange());
+    setModCharacter(getStartCharacter());
+    //setModColor(getStartColor()); hidden for dye interaction
+}
+
+void Living::deleteSpecificItem(Item* item){
+    for(int i = 0; i < inventory.size(); i++){
+        if(&inventory[i] == item){
+            inventory.erase(inventory.begin() + i);
+        }
+    }
+}
+
+vector<Item> Living::getInventory() const {
+    return inventory;
+}
+
+void Living::setInventory(vector<Item> _inventory){
+    inventory = _inventory;
+}

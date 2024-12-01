@@ -43,9 +43,8 @@ Monster::Monster(int _health, int _attack, int _x, int _y, int _color, string _c
     wandering = false;
     followDistance = _followDist;
     moveTimer = _moveTimer;
-    anger = 0;
     currentTimer = 0;
-    angerThreshold = _angerThreshold;
+    setMaxAnger(angerThreshold);
 }
 
 Monster::~Monster() {
@@ -53,15 +52,15 @@ Monster::~Monster() {
     player = nullptr;
 }
 
-void Monster::startMove(Map* map){
+void Monster::startMove(Map* map, string inMove){
     // get player's position
     int playerX = player->getX();
     int playerY = player->getY();
 
     int distanceX = abs(playerX - getX());
     int distanceY = abs(playerY - getY());
-    if(anger <= player->getAggro()){
-        anger = player->getAggro();
+    if(getCurrentAnger() <= player->getCurrentAnger()){
+        setCurrentAnger(player->getCurrentAnger());
         //cout << "aggro " << anger << endl;
     }
 
@@ -73,19 +72,19 @@ void Monster::startMove(Map* map){
     }
 
     if(currentTimer <= 0){
-        if(anger >= angerThreshold && wandering == false){
+        if(getCurrentAnger() >= angerThreshold && wandering == false){
             // wandering is false if the monster can see the player
             attack(map);
         }
-        else if(wandering == false && anger > 3){
-            if(anger < angerThreshold){
-                anger++;
+        else if(wandering == false && getCurrentAnger() > 3){
+            if(getCurrentAnger() < angerThreshold){
+                changeCurrentAnger(1);
             }
             stalk(map);
         }
         else{
-            if(anger > 0){
-                anger--;
+            if(getCurrentAnger() > 0){
+                changeCurrentAnger(-1);
             }
             wander(map);
         }
@@ -282,7 +281,7 @@ void Monster::interact(Tile* tile, Player* _player) {
                (playerChoice == SCISSORS && monsterChoice == PAPER)) {
 
         cout << "you win" << endl;
-        anger -= 10;
+        changeCurrentAnger(-10);
         takeDamage(_player->getModAttack());
         if(getCurrentHealth() <= 0){
             tile->setMonster(nullptr);
@@ -292,8 +291,4 @@ void Monster::interact(Tile* tile, Player* _player) {
         cout << "the monster wins" << std::endl;
         _player->takeDamage(getModAttack());
     }
-}
-
-void Monster::increaseAnger(int _anger) {
-    anger += _anger;
 }

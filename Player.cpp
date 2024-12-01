@@ -6,22 +6,27 @@
 using namespace std;
 
 Player::Player() : Living() {
-    aggro = 0;
 }
 
 Player::Player(int _health, int _attack, int _x, int _y, int _color, string _character, string _name, int _sight, int _invSize) : Living(_health, _attack, _x, _y, _color, _sight, _character, _name, _invSize) {
-    aggro = 0;
 }
 
 Player::~Player() {
     //cout << "Player destructor" << endl;
 }
 
-void Player::startMove(Map* map){
+void Player::startMove(Map* map, string inMove) {
     string direction;
-    cout << endl << endl;
-    cout << "Enter a direction to move (w, a, s, d): ";
-    cin >> direction;
+
+    if(inMove == ""){
+        string direction;
+        cout << endl << endl;
+        cout << "Enter a direction to move (w, a, s, d): ";
+        cin >> direction;
+    }
+    else{
+        direction = inMove;
+    }
 
     // check if only one char was entered
     if (direction.length() != 1) {
@@ -61,12 +66,8 @@ bool Player::pickUpItem(Entity* item) {
         cout << "Inventory full!" << endl;
         return false;
     }
-    aggro += 2;
+    changeCurrentAnger(2);
     //inventory[inventory.size() + 1] = *dynamic_cast<Item*>(item);
     addItemToInventory(dynamic_cast<Item*>(item));
     return true;
-}
-
-int Player::getAggro(){
-    return aggro;
 }

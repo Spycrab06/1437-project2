@@ -87,7 +87,7 @@ void Entity::move(int _x, int _y, Map* _map, string type) {
     }
 }
 
-void Entity::startMove(Map* map) {
+void Entity::startMove(Map* map, string inMove) {
     cout << "Entity startMove" << endl;
 }
 

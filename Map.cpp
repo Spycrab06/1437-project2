@@ -110,7 +110,7 @@ void Map::populateMap() {
     for (int i = 0; i < actualCounts[TREASURE]; ++i) {
         int y = rand() % height;
         int x = rand() % width;
-        int randValue = rand() % 10 + 5;
+        int randValue = rand() % 5 + 10;
         grid[y][x].setInteractable(new Item(randValue, x, y, 6, 1, 1, "Treasure", "O ", "Treasure", true, false));
     }
 
@@ -118,7 +118,7 @@ void Map::populateMap() {
     for (int i = 0; i < actualCounts[MAGIC]; ++i) {
         int y = rand() % height;
         int x = rand() % width;
-        int randValue = rand() % 5 + 15;
+        int randValue = rand() % 25 + 5;
         grid[y][x].setInteractable(new Item(randValue, x, y, 5, 1, 1, "Treasure", "U ", "Magic-Treasure", true, false));
     }
 

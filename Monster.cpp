@@ -35,7 +35,7 @@ Monster::Monster() : Living() {
     followDistance = 3;
 }
 
-Monster::Monster(int _health, int _attack, int _x, int _y, int _color, string _character, string _name, Player* _player, int _moveTimer, int _sight, int _followDist, int _angerThreshold, int _invSize) : Living(_health, _attack, _x, _y, _color, _sight, _character, _name, _invSize) {
+Monster::Monster(int _health, int _attack, int _x, int _y, int _color, string _character, string _name, Player* _player, int _moveTimer, int _sight, int _followDist, int _angerThreshold, int _invSize) : Living(_health, _attack, _x, _y, _color, _sight, _character, _name, _invSize, _angerThreshold) {
     // value, x, y, color, character, name
     //drop = new Item();
     drop = nullptr;
@@ -44,7 +44,6 @@ Monster::Monster(int _health, int _attack, int _x, int _y, int _color, string _c
     followDistance = _followDist;
     moveTimer = _moveTimer;
     currentTimer = 0;
-    setMaxAnger(angerThreshold);
 }
 
 Monster::~Monster() {
@@ -71,26 +70,24 @@ void Monster::startMove(Map* map, string inMove){
         wandering = true;
     }
 
-    if(currentTimer <= 0){
-        if(getCurrentAnger() >= angerThreshold && wandering == false){
-            // wandering is false if the monster can see the player
+    if (currentTimer <= 0)
+    {
+        if (getCurrentAnger() >= getMaxAnger()  && wandering == false)
+        {
             attack(map);
         }
-        else if(wandering == false && getCurrentAnger() > 3){
-            if(getCurrentAnger() < angerThreshold){
-                changeCurrentAnger(1);
-            }
+        else if (wandering == false && getCurrentAnger() > 3)
+        {
             stalk(map);
         }
-        else{
-            if(getCurrentAnger() > 0){
-                changeCurrentAnger(-1);
-            }
+        else
+        {
             wander(map);
         }
         currentTimer = moveTimer;
     }
-    else{
+    else
+    {
         currentTimer--;
     }
     //cout << "anger: " << anger << endl;
@@ -137,13 +134,6 @@ void Monster::stalk(Map* map) {
 
 
     bool moveIn = rand() % 2 == 0;
-
-    // move towards if distance is greater than 3
-
-    // -x is up
-    // +x is down
-    // -y is left
-    // +y is right
 
     // move towards if the distance is greater than followDistance
     if (abs(distanceX) > followDistance) {

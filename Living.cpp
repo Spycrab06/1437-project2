@@ -18,7 +18,7 @@ Living::Living() : Entity() {
     }
 }
 
-Living::Living(int _health, int _attack, int _x, int _y, int _color, int _sight, string _character, string _name, int _invSize) : Entity(_x, _y, _color, _character, _name) {
+Living::Living(int _health, int _attack, int _x, int _y, int _color, int _sight, string _character, string _name, int _invSize, int _maxAnger) : Entity(_x, _y, _color, _character, _name) {
     setInventorySize(_invSize);
     inventory.reserve(inventorySize);
     
@@ -31,7 +31,7 @@ Living::Living(int _health, int _attack, int _x, int _y, int _color, int _sight,
         sightRange[i] = _sight;
     }
 
-    anger[0] = 10;
+    anger[0] = _maxAnger;
     anger[1] = 0;
 }
 

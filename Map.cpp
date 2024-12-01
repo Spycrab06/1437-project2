@@ -89,9 +89,9 @@ Tile& Map::getTile(int x, int y) {
 
 void Map::populateMap() {
     // define the types
-    enum ItemType {TRAP, TREASURE, MAGIC, BERRIES, EXIT, ITEM_TYPE_COUNT};
-    int baseCounts[ITEM_TYPE_COUNT] = {25, 15, 0, 0, 1};
-    int variances[ITEM_TYPE_COUNT] = {30, 20, 5, 5, 3};
+    enum ItemType {TRAP, TREASURE, MAGIC, BERRIES, SCRAP, EXIT, ITEM_TYPE_COUNT};
+    int baseCounts[ITEM_TYPE_COUNT] = {25, 15, 0, 0, 3, 1};
+    int variances[ITEM_TYPE_COUNT] = {30, 20, 5, 5, 5, 3};
 
     // add varience
     int actualCounts[ITEM_TYPE_COUNT];
@@ -128,6 +128,14 @@ void Map::populateMap() {
         int x = rand() % width;
         int randValue = rand() % 8 + 3;
         grid[y][x].setInteractable(new Item(randValue, x, y, 10, 1, -6, "Anger", "Q ", "Berries", true, false));
+    }
+
+    // scrap
+    for (int i = 0; i < actualCounts[SCRAP]; ++i) {
+        int y = rand() % height;
+        int x = rand() % width;
+        int randValue = rand() % 10 + 3;
+        grid[y][x].setInteractable(new Item(randValue, x, y, 8, 1, 1, "Treasure", "S ", "Scrap", true, false));
     }
 
     // escape

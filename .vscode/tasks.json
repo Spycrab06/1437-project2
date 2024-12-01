@@ -121,6 +121,8 @@
                 "${workspaceFolder}/Player.cpp",
                 "${workspaceFolder}/Shop.cpp",
                 "${workspaceFolder}/Tile.cpp",
+                "${workspaceFolder}/savefile.cpp",
+                
                 "-o",
                 "${workspaceFolder}/main_clang_debug.exe"
             ],
@@ -154,6 +156,7 @@
                 "${workspaceFolder}/Player.cpp",
                 "${workspaceFolder}/Shop.cpp",
                 "${workspaceFolder}/Tile.cpp",
+                "${workspaceFolder}/savefile.cpp",
                 "-o",
                 "${workspaceFolder}/main.exe"
             ],

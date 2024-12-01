@@ -14,7 +14,7 @@
 
 using namespace std;
 
-void spawnMonster(vector<Monster*> monsters, Map* mainMap, Player* player){
+void spawnMonster(vector<Monster*>& monsters, Map* mainMap, Player* player){
     int monsterX = rand() % mainMap->getWidth();
     int monsterY = rand() % mainMap->getHeight();
     int randHealth = rand() % 5 + 1;
@@ -23,6 +23,7 @@ void spawnMonster(vector<Monster*> monsters, Map* mainMap, Player* player){
     // int _health, int _attack, int _x, int _y, int _color, string _character, string _name, Player* _player, int _moveTimer, int _sight, int _followDist, int _angerThreshold, int _invSize) : Living(_health, _attack, _x, _y, _color, _sight, _character, _name, _invSize)
     Monster* monster = new Monster(randHealth, 1, monsterX, monsterY, 12, "M ", "Monster", player, 1, 4, randFollowDist, randAngerThreshold, 1);
     monsters.push_back(monster);
+    mainMap->getTile(monsterX, monsterY).setMonster(monster);
 }
 
 void playerMenu(Player* player, Map* map){
@@ -108,7 +109,7 @@ bool dungeonLoop(Player* player){
                 }
             }
             // clears the console
-            for(int i = 0; i < 25; i++){
+            for(int i = 0; i < 5; i++){
                 cout << endl;
             }
 
@@ -157,6 +158,9 @@ bool shopLoop(Player* player, int& money){
 
     // Main game loop
     while (true) {
+        for(int i = 0; i < 5; i++){
+            cout << endl;
+        }
         cout << endl << "=== Welcome to the Game Shop ===" << endl;
         cout << "1. View Shop and Buy Items" << endl;
         cout << "2. Bulk Sell Valubles" << endl;
@@ -265,6 +269,7 @@ int main()
     Player* player = new Player(5, 1, 0, 0, 3, "P ", "Player", 3, 4);
     int money = 10;
     int quota = 19999;
+
     cout << endl;
     cout << "Do you want to load the game? (y/n): " << endl;
     char choice;

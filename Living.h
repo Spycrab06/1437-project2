@@ -12,7 +12,7 @@ class Map;
 class Living : public Entity {
     public:
         Living();
-        Living(int, int, int, int, int, int, string, string, int);
+        Living(int, int, int, int, int, int, string, string, int, int);
         ~Living() override;
 
         // sets

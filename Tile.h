@@ -19,7 +19,6 @@ class Tile {
         void printTile(bool);
         string changeColor(int colorCode);
 
-
         void setEntity(Entity* _entity);
         Entity* getEntity();
 

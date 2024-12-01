@@ -8,7 +8,7 @@ using namespace std;
 Player::Player() : Living() {
 }
 
-Player::Player(int _health, int _attack, int _x, int _y, int _color, string _character, string _name, int _sight, int _invSize) : Living(_health, _attack, _x, _y, _color, _sight, _character, _name, _invSize) {
+Player::Player(int _health, int _attack, int _x, int _y, int _color, string _character, string _name, int _sight, int _invSize) : Living(_health, _attack, _x, _y, _color, _sight, _character, _name, _invSize, 0) {
 }
 
 Player::~Player() {

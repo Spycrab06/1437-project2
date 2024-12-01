@@ -53,7 +53,7 @@ Tile::Tile(int _x, int _y) {
 
 void Tile::printTile(bool hidden){
     if(hidden){
-        changeColor(0);
+        changeColor(7);
         cout << "# ";
     }
     else if(entity != nullptr){
@@ -69,7 +69,7 @@ void Tile::printTile(bool hidden){
         cout << interactable->getModCharacter();
     }
     else {
-        changeColor(0);
+        changeColor(7);
         cout << ". ";
     }
     changeColor(-1);
@@ -143,14 +143,13 @@ int Tile::getY() {return y;}
 void Tile::setX(int _x) {x = _x;}
 void Tile::setY(int _y) {y = _y;}
 
+
 Tile::~Tile() {
-    if (monster != nullptr) {
-        delete monster;
-    }
     if (interactable != nullptr) {
         delete interactable;
     }
-    // Don't delete entity (player) as it's managed elsewhere
+    // deleting causes problems
+    monster = nullptr;
     entity = nullptr;
 }
 

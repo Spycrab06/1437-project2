@@ -46,10 +46,11 @@
             "name": "Release",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/main_clang_debug.exe",
+            "program": "${workspaceFolder}/main.exe",
             "args": [],
             "cwd": "${workspaceFolder}",
-            "console": "integratedTerminal",
+            //"console": "integratedTerminal",
+            "console": "externalTerminal",
             "environment": [
                 {
                     "name": "PATH",

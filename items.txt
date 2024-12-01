@@ -1,4 +1,5 @@
 40 2 2 1 Sight ^ Flashlight false true
+80 2 5 2 Sight ^ Mega-Flashlight false true
 30 2 3 1 Health B Shield false true
 10 11 1 -4 Anger * Repellent false false
 20 11 4 4 Anger o Attractor false false
@@ -7,6 +8,7 @@
 20 6 3 1 Duck d Rubber-Duck false false
 40 2 5 1 Attack a Axe false true
 40 2 5 1 Attack s Sword false true
+60 2 7 3 Attack s Big-Sword false true
 20 2 1 1 Health B Bandage false false
 50 9 6 2 Hat H Fancy-Hat false true
 30 1 4 1 Hat h Boring-Hat false true

@@ -53,7 +53,7 @@ void Entity::move(int _x, int _y, Map* _map, string type) {
         Tile& newTile = _map->getTile(_x, _y);
         
         // manage the entities
-        if (&newTile != nullptr) {
+        
 
             // move entity to new tile
             if(type == "player"){
@@ -78,10 +78,8 @@ void Entity::move(int _x, int _y, Map* _map, string type) {
             setX(_x);
             setY(_y);
         } 
-        else {
-            cout << "move failed due to null tile reference" << endl;
-        }
-    } 
+     
+    
     else {
         cout << "Move out of bounds" << endl;
     }

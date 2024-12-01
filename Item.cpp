@@ -81,7 +81,7 @@ string Item::getType() const {return type;}
 int Item::getIncreaseAmount() const {return increaseAmount;}
 
 void Item::useItem(Living* entity) {
-    bool used;
+    bool used = false;
     if(passive != true){
         if(type == "Health"){
             if(entity->getCurrentHealth() + increaseAmount <= entity->getModHealth()){
@@ -109,6 +109,9 @@ void Item::useItem(Living* entity) {
         }
         else if(type == "Duck"){
             cout << "Quack" << endl;
+        }
+        else if(type == "Luck"){
+            cout << "Rubbing the dice makes you feel lucky" << endl;
         }
         else if(type == "Treasure"){
             cout << "Doesnt seem to do anything, but looks valuble" << endl;

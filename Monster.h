@@ -31,8 +31,6 @@ class Monster : public Living {
         bool wandering;
         int moveTimer;
         int currentTimer;
-        int angerThreshold;
-        int currentAnger;
         int followDistance;
 };
 

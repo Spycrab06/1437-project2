@@ -6,27 +6,15 @@
 using namespace std;
 
 Player::Player() : Living() {
-    inventorySize = 4;
-    inventory.reserve(inventorySize);
-    // for (int i = 0; i < inventorySize; i++) {
-    //     inventory[i] = Item();
-    // }
-
     aggro = 0;
 }
 
-Player::Player(int _health, int _attack, int _x, int _y, int _color, string _character, string _name, int _sight) : Living(_health, _attack, _x, _y, _color, _character, _name) {
-    inventorySize = 4;
-    inventory.reserve(inventorySize);
-    // for (int i = 0; i < inventorySize; i++) {
-    //    inventory[i] = Item();
-    // }
-    sightRange = _sight;
+Player::Player(int _health, int _attack, int _x, int _y, int _color, string _character, string _name, int _sight, int _invSize) : Living(_health, _attack, _x, _y, _color, _sight, _character, _name, _invSize) {
     aggro = 0;
 }
 
 Player::~Player() {
-    inventory.clear();
+    //cout << "Player destructor" << endl;
 }
 
 void Player::startMove(Map* map){
@@ -69,7 +57,7 @@ void Player::startMove(Map* map){
 }
 
 bool Player::pickUpItem(Entity* item) {
-    if (inventory.size() >= inventorySize) {
+    if (getItemCount() >= getInventorySize()) {
         cout << "Inventory full!" << endl;
         return false;
     }
@@ -79,45 +67,6 @@ bool Player::pickUpItem(Entity* item) {
     return true;
 }
 
-int Player::getItemCount() {
-    return inventory.size();
-}
-
-int Player::getSightRange(){
-    return sightRange;
-}
-
-void Player::setSightRange(int _sight){
-    sightRange = _sight;
-}
-
-void Player::statCheck(){
-    if(getHealth() <= 0){
-        throw false;
-    }
-}
-
 int Player::getAggro(){
     return aggro;
 }
-
-Item* Player::getItemFromInventory(int index){
-    return &inventory[index];
-}
-
-void Player::setInventorySlot(int index, Item* item){
-    inventory[index] = *item;
-}
-
-void Player::deleteItemFromInventory(int index){
-    inventory.erase(inventory.begin() + index);
-}
-
-int Player::getInventorySize(){
-    return inventorySize;
-}
-
-void Player::addItemToInventory(Item* item){
-    inventory.emplace_back(*item);
-}
-

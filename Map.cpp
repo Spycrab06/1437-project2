@@ -32,9 +32,7 @@ Map::~Map(){
 }
 
 void Map::printMap(Player* player){
-    int playerX = player->getX();
-    int playerY = player->getY();
-    int sightRange = player->getSightRange();
+    int sightRange = player->getModSightRange();
 
     // height loop
     for(int i = 0; i < height; i++){

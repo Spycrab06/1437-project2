@@ -18,12 +18,18 @@ class Entity {
 
         int getX() const;
         int getY() const;
-        int getColor() const;
-        string getCharacter() const;
+        int getStartColor() const;
+        int getModColor() const;
+        string getStartCharacter() const;
+        string getModCharacter() const;
         string getName() const;
 
-        void setColor(int _color);
-        void setCharacter(string _character);
+        void setStartColor(int _color);
+        void setModColor(int _color);
+
+        void setStartCharacter(string _character);
+        void setModCharacter(string _character);
+
         void setX(int);
         void setY(int);
         void setName(string _name);
@@ -34,8 +40,12 @@ class Entity {
         virtual bool pickUpItem(Entity* item);
     private:
         int x, y;
-        int color;
-        string character;
+        
+        // 0: start color
+        // 1: mod color
+        int color[2];
+        string character[2];
+
         string name;
 };
 

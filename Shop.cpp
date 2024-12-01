@@ -161,10 +161,12 @@ void Shop::generateItemsForSale() {
 
 // sell items from inventory
 void Shop::sellItems(Player* player, int &money) {
-    for (int i = player->getItemCount(); i >= 0; i--) {
+    int invSize = player->getItemCount() - 1;
+    for (int i = invSize; i > -1; i--) {
         Item* currentItem = player->getItemFromInventory(i);
         if (currentItem && currentItem->isSellable()) {
             money += currentItem->getValue();
+            cout << "Selling at index: " << i << endl;
             player->deleteItemFromInventory(i);
             //player->setInventorySlot(i, new Item());
         }

@@ -13,7 +13,7 @@ class Player;
 class Monster : public Living {
     public:
         Monster();
-        Monster(int, int, int, int, int, string, string, Player*, int, int, int, int);
+        Monster(int, int, int, int, int, string, string, Player*, int, int, int, int, int);
         ~Monster() override;
         void startMove(Map* map) override;
 
@@ -36,7 +36,6 @@ class Monster : public Living {
         int angerThreshold;
         int anger;
         int currentAnger;
-        int sight;
         int followDistance;
 };
 

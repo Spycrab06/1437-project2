@@ -57,16 +57,16 @@ void Tile::printTile(bool hidden){
         cout << "# ";
     }
     else if(entity != nullptr){
-        changeColor(entity->getColor());
-        cout << entity->getCharacter();
+        changeColor(entity->getModColor());
+        cout << entity->getModCharacter();
     }
     else if(monster != nullptr){
-        changeColor(monster->getColor());
-        cout << monster->getCharacter();
+        changeColor(monster->getModColor());
+        cout << monster->getModCharacter();
     }
     else if(interactable != nullptr){
-        changeColor(interactable->getColor());
-        cout << interactable->getCharacter();
+        changeColor(interactable->getModColor());
+        cout << interactable->getModCharacter();
     }
     else {
         changeColor(0);
@@ -151,14 +151,14 @@ Tile::~Tile() {
 
 int Tile::distanceToPlayerX(Player* player){
     int playerX = player->getX();
-    int distanceX = abs(player->getX() - x);
+    int distanceX = abs(playerX - x);
 
     return distanceX;
 }
 
 int Tile::distanceToPlayerY(Player* player){
     int playerY = player->getY();
-    int distanceY = abs(player->getY() - y);
+    int distanceY = abs(playerY - y);
 
     return distanceY;
 }

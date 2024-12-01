@@ -52,8 +52,13 @@ Item& Item::operator=(const Item& other) {
         sellable = other.sellable;
         setX(other.getX());
         setY(other.getY());
-        setColor(other.getColor());
-        setCharacter(other.getCharacter());
+
+        setStartColor(other.getStartColor());
+        setModColor(other.getModColor());
+        
+        setStartCharacter(other.getStartCharacter());
+        setModCharacter(other.getModCharacter());
+
         setName(other.getName());
     }
     return *this;

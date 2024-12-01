@@ -32,11 +32,10 @@ Monster::Monster() : Living() {
     wandering = false;
     moveTimer = 1;
     currentTimer = 0;
-    sight = 6;
     followDistance = 3;
 }
 
-Monster::Monster(int _health, int _attack, int _x, int _y, int _color, string _character, string _name, Player* _player, int _moveTimer, int _sight, int _followDist, int _angerThreshold) : Living(_health, _attack, _x, _y, _color, _character, _name) {
+Monster::Monster(int _health, int _attack, int _x, int _y, int _color, string _character, string _name, Player* _player, int _moveTimer, int _sight, int _followDist, int _angerThreshold, int _invSize) : Living(_health, _attack, _x, _y, _color, _sight, _character, _name, _invSize) {
     // value, x, y, color, character, name
     //drop = new Item();
     drop = nullptr;
@@ -44,7 +43,6 @@ Monster::Monster(int _health, int _attack, int _x, int _y, int _color, string _c
     wandering = false;
     followDistance = _followDist;
     moveTimer = _moveTimer;
-    sight = _sight;
     anger = 0;
     currentTimer = 0;
     angerThreshold = _angerThreshold;
@@ -60,14 +58,14 @@ void Monster::startMove(Map* map){
     int playerX = player->getX();
     int playerY = player->getY();
 
-    int distanceX = abs(player->getX() - getX());
-    int distanceY = abs(player->getY() - getY());
+    int distanceX = abs(playerX - getX());
+    int distanceY = abs(playerY - getY());
     if(anger <= player->getAggro()){
         anger = player->getAggro();
         //cout << "aggro " << anger << endl;
     }
 
-    if(distanceX <= sight && distanceY <= sight){
+    if(distanceX <= getModSightRange() && distanceY <= getModSightRange()){
         wandering = false;
     }
     else{
@@ -262,19 +260,17 @@ Entity* Monster::getDrop() {
 void Monster::interact(Tile* tile, Player* _player) {
     enum Choice { ROCK, PAPER, SCISSORS };
     cout << "Monster attacks player" << endl;
-    int choice;
+    string choice;
     cout << "Enter your choice (0 = ROCK, 1 = PAPER, 2 = SCISSORS): ";
     cin >> choice;
-
-    Choice playerChoice;
-    // check if the input is valid
-    if(choice != 0 && choice != 1 && choice != 2){
-        cout << "Invalid choice" << endl;
-        return;
+    try{
+        stoi(choice);
     }
-    else{
-        playerChoice = static_cast<Choice>(choice);
+    catch(invalid_argument e){
+        cout << "Invalid choice, picking randomly" << endl;
+        choice = to_string(rand() % 3);
     }
+    Choice playerChoice = static_cast<Choice>(stoi(choice));
     Choice monsterChoice = static_cast<Choice>(rand() % 3);
 
     if (playerChoice == monsterChoice) {
@@ -287,14 +283,14 @@ void Monster::interact(Tile* tile, Player* _player) {
 
         cout << "you win" << endl;
         anger -= 10;
-        takeDamage(_player->getAttack());
-        if(getHealth() <= 0){
+        takeDamage(_player->getModAttack());
+        if(getCurrentHealth() <= 0){
             tile->setMonster(nullptr);
         }
     } 
     else {
         cout << "the monster wins" << std::endl;
-        _player->takeDamage(getAttack());
+        _player->takeDamage(getModAttack());
     }
 }
 

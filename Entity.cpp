@@ -8,27 +8,40 @@ using namespace std;
 Entity::Entity() {
     x = 0;
     y = 0;
-    color = 1;
-    character = "N ";
+    for(int i = 0; i < 2; i++){
+        color[i] = 1;
+        character[i] = "N ";
+    }
     name = "Empty";
 }
 
 Entity::Entity(int _x, int _y, int _color, string _character, string _name) {
     x = _x;
     y = _y;
-    color = _color;
-    character = _character;
+    
+    // sets both start and the modified variables
+    for(int i = 0; i < 2; i++){
+        color[i] = _color;
+        character[i] = _character;
+    }
     name = _name;
 }
 
 int Entity::getX() const {return x;}
 int Entity::getY() const {return y;}
-int Entity::getColor() const {return color;}
-string Entity::getCharacter() const {return character;}
+
+int Entity::getStartColor() const {return color[0];}
+int Entity::getModColor() const {return color[1];}
+string Entity::getStartCharacter() const {return character[0];}
+string Entity::getModCharacter() const {return character[1];}
+
 string Entity::getName() const {return name;}
 
-void Entity::setColor(int _color) {color = _color;}
-void Entity::setCharacter(string _character) {character = _character;}
+void Entity::setStartColor(int _color) {color[0] = _color;}
+void Entity::setModColor(int _color) {color[1] = _color;}
+void Entity::setStartCharacter(string _character) {character[0] = _character;}
+void Entity::setModCharacter(string _character) {character[1] = _character;}
+
 void Entity::setX(int _x) {x = _x;}
 void Entity::setY(int _y) {y = _y;}
 void Entity::setName(string _name) {name = _name;}
@@ -90,8 +103,10 @@ bool Entity::pickUpItem(Entity* item) {
 Entity& Entity::operator=(const Entity& other) {
     x = other.x;
     y = other.y;
-    color = other.color;
-    character = other.character;
+    for(int i = 0; i < 2; i++){
+        color[i] = other.color[i];
+        character[i] = other.character[i];
+    }
     name = other.name;
     return *this;
 }

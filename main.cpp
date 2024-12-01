@@ -34,7 +34,7 @@ bool dungeonLoop(Player* player){
         int monsterX = rand() % mainMap->getWidth();
         int monsterY = rand() % mainMap->getHeight();
         // health, attack, x, y, color, character, name, player, moveTimer, sight, followDist, angerThreshold
-        Monster* monster = new Monster(3, 1, monsterX, monsterY, 12, "M ", "Monster", player, 1, 4, 2, 10);
+        Monster* monster = new Monster(3, 1, monsterX, monsterY, 12, "M ", "Monster", player, 1, 4, 2, 10, 1);
         monsters.push_back(monster);
     }
 
@@ -59,7 +59,7 @@ bool dungeonLoop(Player* player){
             if(turn % 20 == 0){
                 int monsterX = rand() % mainMap->getWidth();
                 int monsterY = rand() % mainMap->getHeight();
-                Monster* newMonster = new Monster(3, 1, monsterX, monsterY, 12, "M ", "Monster", player, 1, 4, 2, 10);
+                Monster* newMonster = new Monster(3, 1, monsterX, monsterY, 12, "M ", "Monster", player, 1, 4, 2, 10, 1);
                 monsters.push_back(newMonster);
             }
 
@@ -146,7 +146,8 @@ bool shopLoop(Player* player, int& money){
 int main()
 {
     srand(time(0));
-    Player* player = new Player(5, 1, 0, 0, 3, "P ", "Player", 3);
+    // (int _health, int _attack, int _x, int _y, int _color, string _character, string _name, int _sight, int _invSize)
+    Player* player = new Player(5, 1, 0, 0, 3, "P ", "Player", 3, 4);
     int money = 50;
 
     // if player survives, returns true, if not, returns false
